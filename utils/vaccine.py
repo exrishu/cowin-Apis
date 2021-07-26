@@ -23,11 +23,11 @@ class VaccineAvailability(object):
         try:
             data = requests.get(data_url, headers=self.headers, timeout=2.0)
             return data.json()
-        except (requests.exceptions.ConnectionError ,requests.exceptions.ReadTimeout) as e:
-            return {"message" : "Unable to establish connection, timeout occurred"}
+        except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
+            return {"message": "Unable to establish connection, timeout occurred"}
 
     def vaccine_final_details(self, place: str, vaccine_name: str, dose1: int, dose2: int, min_age: int,
-                              max_age: int, vaccination_list_data:[]) -> []:
+                              max_age: int, vaccination_list_data: []) -> []:
 
         vaccine_details = {"place": place,
                            "vaccine": vaccine_name,
@@ -64,7 +64,8 @@ class VaccineAvailability(object):
                     vaccination_list = self.vaccine_final_details(slot_value[i]['name'], slot_value[i]['vaccine'],
                                                                   slot_value[i]['available_capacity_dose1'],
                                                                   slot_value[i]['available_capacity_dose2'],
-                                                                  slot_value[i]['min_age_limit'], max_age,vaccination_list_data)
+                                                                  slot_value[i]['min_age_limit'], max_age,
+                                                                  vaccination_list_data)
 
         return self.check_vaccination_details(vaccination_list)
 
@@ -88,13 +89,14 @@ class VaccineAvailability(object):
                     vaccination_list = self.vaccine_final_details(slot_value[i]['name'], slot_value[i]['vaccine'],
                                                                   slot_value[i]['available_capacity_dose1'],
                                                                   slot_value[i]['available_capacity_dose2'],
-                                                                  slot_value[i]['min_age_limit'], max_age,vaccination_list_data)
+                                                                  slot_value[i]['min_age_limit'], max_age,
+                                                                  vaccination_list_data)
         return self.check_vaccination_details(vaccination_list)
 
     def check_availability_old(self):
         global max_age
         vaccination_list = []
-        vaccination_list_data=[]
+        vaccination_list_data = []
         slot_list = self.get_data
         try:
             slot_value = slot_list['sessions']
@@ -111,5 +113,6 @@ class VaccineAvailability(object):
                     vaccination_list = self.vaccine_final_details(slot_value[i]['name'], slot_value[i]['vaccine'],
                                                                   slot_value[i]['available_capacity_dose1'],
                                                                   slot_value[i]['available_capacity_dose2'],
-                                                                  slot_value[i]['min_age_limit'], max_age,vaccination_list_data)
+                                                                  slot_value[i]['min_age_limit'], max_age,
+                                                                  vaccination_list_data)
         return self.check_vaccination_details(vaccination_list)
